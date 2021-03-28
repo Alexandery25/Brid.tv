@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .thegrid {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            grid-gap: 5px;
+        }
+
+        @media screen and (max-width:1120px) {
+            .thegrid {
+                grid-template-columns: auto auto auto auto;
+            }
+        }
+
+        @media screen and (max-width:910px) {
+            .thegrid {
+                grid-template-columns: auto auto auto;
+            }
+        }
+
+        @media screen and (max-width:690px) {
+            .thegrid {
+                grid-template-columns: auto auto;
+            }
+        }
+
+        @media screen and (max-width:470px) {
+            .thegrid {
+                grid-template-columns: auto;
+            }
+        }
+
+        .thegrid .cell {
+            padding: 10px;
+            text-align: center;
+            background: #d1f2ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <script>
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json; charset=UTF-8',
+                    'Authorization': 'Bearer ca3f7b6843ae84b71da64b1d041c867f12b1aa0b'
+                }
+            };
+            fetch('https://api.brid.tv/apiv3/video/list/18915.json?page=0&limit=25', options)
+                /* only 22 videos available with the 18915 Partner ID API access */
+                .then(resp => resp.json())
+                .then(data => {
+                    videos = data.data;
+                    div = document.createElement('thegrid');
+                    div.id = 'thegrid';
+                    div.className = 'thegrid';
+                    document.body.appendChild(div);
+
+                    for (var videoID in videos) {
+
+                        cell = document.createElement('cell');
+                        cell.className = 'cell';
+                        cell.innerHTML = "<video width='200'><source src='https://cdn.brid.tv/live/partners/18915/hd/" + videoID + ".mp4'></video><p>" + videos[videoID] + "</p>";
+                        thegrid.appendChild(cell);
+
+                    }
+                })
+                .catch(err => console.error(err));
+        </script>
+    </div>
+</body>
+
+</html>
